@@ -1,89 +1,98 @@
 import React, { useState } from "react";
 // import Details from "./Details";
-import Person from "./Person";
-import "./Person.css";
+import "./App.css";
+import Person from "./Components/Person/Person";
+import "./Components/Person/Person.css";
 
 const App = () => {
-    const [persons, setPersons] = useState({
-        person: [
+    const [personState, setPersonState] = useState({
+        persons: [
             { id: "1", name: "KK", age: 21 },
             { id: "2", name: "OM", age: 21 },
             { id: "3", name: "RAJ", age: 24 },
         ],
-        showPerson: false,
+        showPerson: true,
     });
 
-    // const newChangeName = (e, id) => {
-    //     setPersons({
-    //         person: [
-    //             { name: "Kirtan Thummar", age: 21 },
-    //             { name: "Tejas Rangani", age: 25 },
-    //             { name: e.target.value, age: 3.5 },
-    //         ],
-    //         showPerson: persons.showPerson,
-    //     });
-    // };
+    const nameChangedHandler = (e, id) => {
+        const personIndex = personState.persons.findIndex((p) => {
+            return p.id === id;
+        });
 
-    // const newChangeName = (e, id) => {
-    //     const personIndex = persons.person.findIndex((p) => p.id === id);
-    //     const person = { ...persons.person[personIndex] };
-    //     person.name = e.target.value;
-    //     const kkm = [...persons.person];
-    //     kkm[personIndex] = person;
-    //     setPersons({ person: person });
-    // };
-
-    // const togglePersonsHandler = () => {
-    //     // const doesShow = persons.showPerson;
-    //     // setPersons({ showPerson: !doesShow });
-    //     setPersons((prevState) => {
-    //         return {
-    //             ...prevState,
-    //             showPerson: !prevState.showPerson,
-    //         };
-    //     });
-    // };
-
-    // let people = null;
-
-    // if (persons.showPerson) {
-    //     people = (
-    //         <div>
-    //             <Person name={persons.person[0].name} age={persons.person[0].age} />
-    //             <Person name={persons.person[1].name} age={persons.person[1].age} />
-    //             <Person name={persons.person[2].name} age={persons.person[2].age} changed={newChangeName} />
-    //         </div>
-    //     );
-    // }
-
-    const deletePerson = (personIndex) => {
-        // const person = persons.person.splice(); //.splice() method
-        const person = [...persons.person]; // spread operator
-        person.splice(personIndex, 1);
-        setPersons({ person: person });
+        const person = { ...personState.persons[personIndex] };
+        person.name = e.target.value;
+        const persons = [...personState.persons];
+        persons[personIndex] = person;
+        setPersonState({ persons: persons });
     };
 
-    let people = null;
+    const deletePersonHandler = (personIndex) => {
+        const persons = [...personState.persons];
+        persons.splice(personIndex, 1);
+        setPersonState({ persons: persons });
+    };
 
-    if (!persons.showPerson) {
-        people = (
+    const togglePersonsHandler = () => {
+        setPersonState((prevState) => {
+            return {
+                ...prevState,
+                showPerson: !prevState.showPerson,
+            };
+        });
+    };
+
+    // const togglePersonsHandler = () => {
+    //     const doesShow = personState.showPerson;
+    //     setPersonState({ showPersons: !doesShow });
+    // };
+
+    const style = {
+        backgroundColor: "green",
+        color: "white",
+        font: "inherit",
+        border: "1px solid blue",
+        padding: "8px",
+        cursor: "pointer",
+        ":hover": {
+            backgroundColor: "lightgreen",
+            color: "black",
+        },
+    };
+
+    let persons = null;
+
+    if (!personState.showPerson) {
+        persons = (
             <div>
-                {persons.person.map((pupil, index) => {
-                    return <Person click={() => deletePerson(index)} name={pupil.name} age={pupil.age} key={pupil.id} changed={(e) => newChangeName(e, pupil.id)} />;
-
-                    {
-                        /* return <Person click={() => deletePerson(index)} name={pupil.name} age={pupil.age} key={pupil.id} changed={(e) => newChangeName(e, pupil.id)} />; */
-                    }
+                {personState.persons.map((persons, index) => {
+                    return <Person click={() => deletePersonHandler(index)} name={persons.name} age={persons.age} key={persons.id} changed={(e) => nameChangedHandler(e, persons.id)} />;
                 })}
             </div>
         );
+
+        style.backgroundColor = "red";
+        style[":hover"] = {
+            backgroundColor: "salmon",
+            color: "black",
+        };
+    }
+
+    const classes = [];
+    if (personState.persons.length <= 2) {
+        classes.push("red");
+    }
+    if (personState.persons.length <= 1) {
+        classes.push("bold");
     }
 
     return (
         <div className="App">
             <h1>Heading</h1>
-            <button className="switchNameBtn">Switch Name</button>
-            {people}
+            <p className={classes.join(" ")}> THIS IS WORKING </p>
+            <button style={style} onClick={togglePersonsHandler}>
+                Show Name
+            </button>
+            {persons}
         </div>
     );
 };
