@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import "./App.css";
-import Person from "../Components/Persons/Person";
-import "../Components/Persons/Person.css";
+import "../Components/Persons/Person/Person.css";
+import Persons from "../Components/Persons/Persons";
+import Cockpit from "../Components/Cockpit/Cockpit";
+import "../Components/Cockpit/Cockpit.css";
 
-const App = () => {
+const App = (props) => {
     const [personState, setPersonState] = useState({
         persons: [
             { id: "1", name: "KK", age: 21 },
@@ -40,57 +42,15 @@ const App = () => {
         });
     };
 
-    // const togglePersonsHandler = () => {
-    //     const doesShow = personState.showPerson;
-    //     setPersonState({ showPersons: !doesShow });
-    // };
-
-    const style = {
-        backgroundColor: "green",
-        color: "white",
-        font: "inherit",
-        border: "1px solid blue",
-        padding: "8px",
-        cursor: "pointer",
-        ":hover": {
-            backgroundColor: "lightgreen",
-            color: "black",
-        },
-    };
-
     let persons = null;
 
     if (!personState.showPerson) {
-        persons = (
-            <div>
-                {personState.persons.map((persons, index) => {
-                    return <Person click={() => deletePersonHandler(index)} name={persons.name} age={persons.age} key={persons.id} changed={(e) => nameChangedHandler(e, persons.id)} />;
-                })}
-            </div>
-        );
-
-        style.backgroundColor = "red";
-        style[":hover"] = {
-            backgroundColor: "salmon",
-            color: "black",
-        };
-    }
-
-    const classes = [];
-    if (personState.persons.length <= 2) {
-        classes.push("red");
-    }
-    if (personState.persons.length <= 1) {
-        classes.push("bold");
+        persons = <Persons persons={personState.persons} click={deletePersonHandler} changed={nameChangedHandler} />;
     }
 
     return (
         <div className="App">
-            <h1>Heading</h1>
-            <p className={classes.join(" ")}> THIS IS WORKING </p>
-            <button style={style} onClick={togglePersonsHandler}>
-                Show Name
-            </button>
+            <Cockpit title={props.title} showPerson={personState.showPerson} persons={personState.persons} clicked={togglePersonsHandler} />
             {persons}
         </div>
     );
