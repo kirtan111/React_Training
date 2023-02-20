@@ -1,21 +1,35 @@
-import React from "react";
-import classes from "./Cockpit.css";
+import React, { useEffect, memo } from "react";
+import "./Cockpit.css";
 
 const Cockpit = (props) => {
+    useEffect(() => {
+        // const timer = setTimeout(() => {
+        //     alert("UPDATED...");
+        // }, 1000);
+        return () => {
+            // clearTimeout(timer);
+            console.log("cleanup work");
+        };
+    }, []);
+
     const assignedClasses = [];
+
     let btnclass = "";
+
     if (props.showPerson) {
         btnclass = "red";
     }
-    if (props.persons.length <= 2) {
-        assignedClasses.push("red");
+    if (props.personsLength <= 2) {
+        assignedClasses.push("Red");
     }
-    if (props.persons.length <= 1) {
-        assignedClasses.push("bold");
+    if (props.personsLength <= 1) {
+        assignedClasses.push("Bold");
     }
 
+    console.log("cockpit jsibuvuvikvikuhsdfghjklkjhgfdsdfghj");
+
     return (
-        <div className={classes.Cockpit}>
+        <div className="Cockpit">
             <h1>{props.title}</h1>
             <p className={assignedClasses.join(" ")}> THIS IS WORKING </p>
             <button className={btnclass} onClick={props.clicked}>
@@ -25,4 +39,4 @@ const Cockpit = (props) => {
     );
 };
 
-export default Cockpit;
+export default memo(Cockpit);

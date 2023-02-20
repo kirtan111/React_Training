@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import "./App.css";
-import "../Components/Persons/Person/Person.css";
+// import "../Components/Persons/Person/Person.css";
 import Persons from "../Components/Persons/Persons";
 import Cockpit from "../Components/Cockpit/Cockpit";
-import "../Components/Cockpit/Cockpit.css";
+// import "../Components/Cockpit/Cockpit.css";
+// import person from "../Components/Persons/Person/Person";
 
 const App = (props) => {
     const [personState, setPersonState] = useState({
@@ -13,6 +14,7 @@ const App = (props) => {
             { id: "3", name: "RAJ", age: 24 },
         ],
         showPerson: true,
+        showCockpit: true,
     });
 
     const nameChangedHandler = (e, id) => {
@@ -42,6 +44,8 @@ const App = (props) => {
         });
     };
 
+    console.log("[App.js] rendered");
+
     let persons = null;
 
     if (!personState.showPerson) {
@@ -50,7 +54,19 @@ const App = (props) => {
 
     return (
         <div className="App">
-            <Cockpit title={props.title} showPerson={personState.showPerson} persons={personState.persons} clicked={togglePersonsHandler} />
+            <button
+                onClick={() => {
+                    setPersonState((prevState) => {
+                        return {
+                            ...prevState,
+                            showCockpit: !prevState.showCockpit,
+                        };
+                    });
+                }}
+            >
+                Remove Cockpit
+            </button>
+            {personState.showCockpit ? <Cockpit title={props.title} showPerson={personState.showPerson} personsLength={personState.persons.length} clicked={togglePersonsHandler} /> : null}
             {persons}
         </div>
     );
