@@ -7,7 +7,7 @@ const Cockpit = (props) => {
     useEffect(() => {
         return () => {
             // eslint-disable-next-line
-            toggleBtnRef.current.click();
+            // toggleBtnRef.current.click();
             return () => {
                 console.log("cleanup work");
             };
@@ -28,7 +28,7 @@ const Cockpit = (props) => {
         assignedClasses.push("Bold");
     }
 
-    console.log("cockpit jsibuvuvikvikuhsdfghjklkjhgfdsdfghj");
+    console.log("cockpit");
 
     return (
         <div className="Cockpit">
@@ -37,7 +37,7 @@ const Cockpit = (props) => {
             <button ref={toggleBtnRef} className={btnclass} onClick={props.clicked}>
                 Show Name
             </button>
-            <button login={props.login}> Login </button>
+            <button onClick={props.login}> Login </button>
         </div>
     );
 };
