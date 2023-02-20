@@ -1,10 +1,8 @@
 import React, { useState } from "react";
-import "./App.css";
-// import "../Components/Persons/Person/Person.css";
 import Persons from "../Components/Persons/Persons";
 import Cockpit from "../Components/Cockpit/Cockpit";
-// import "../Components/Cockpit/Cockpit.css";
-// import person from "../Components/Persons/Person/Person";
+import "./App.css";
+import WithClass from "../hoc/WithClass";
 
 const App = (props) => {
     const [personState, setPersonState] = useState({
@@ -15,6 +13,8 @@ const App = (props) => {
         ],
         showPerson: true,
         showCockpit: true,
+        changeCounter: 0,
+        authenticated: false,
     });
 
     const nameChangedHandler = (e, id) => {
@@ -26,8 +26,15 @@ const App = (props) => {
         person.name = e.target.value;
         const persons = [...personState.persons];
         persons[personIndex] = person;
-        setPersonState({ persons: persons });
+        setPersonState((prevState) => {
+            return {
+                persons: persons,
+                changeCounter: prevState.changeCounter + 1,
+            };
+        });
     };
+
+    console.log(personState.changeCounter);
 
     const deletePersonHandler = (personIndex) => {
         const persons = [...personState.persons];
@@ -44,16 +51,25 @@ const App = (props) => {
         });
     };
 
+    const loginhandler = () => {
+        setPersonState((prevState) => {
+            return {
+                ...prevState,
+                authenticated: !prevState.authenticated,
+            };
+        });
+    };
+
     console.log("[App.js] rendered");
 
     let persons = null;
 
     if (!personState.showPerson) {
-        persons = <Persons persons={personState.persons} click={deletePersonHandler} changed={nameChangedHandler} />;
+        persons = <Persons isAuthenticated={personState.authenticated} persons={personState.persons} click={deletePersonHandler} changed={nameChangedHandler} />;
     }
 
     return (
-        <div className="App">
+        <WithClass classes="App">
             <button
                 onClick={() => {
                     setPersonState((prevState) => {
@@ -66,9 +82,9 @@ const App = (props) => {
             >
                 Remove Cockpit
             </button>
-            {personState.showCockpit ? <Cockpit title={props.title} showPerson={personState.showPerson} personsLength={personState.persons.length} clicked={togglePersonsHandler} /> : null}
+            {personState.showCockpit ? <Cockpit title={props.title} login={loginhandler} showPerson={personState.showPerson} personsLength={personState.persons.length} clicked={togglePersonsHandler} /> : null}
             {persons}
-        </div>
+        </WithClass>
     );
 };
 

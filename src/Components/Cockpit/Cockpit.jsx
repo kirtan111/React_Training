@@ -1,14 +1,16 @@
-import React, { useEffect, memo } from "react";
+import React, { useEffect, memo, useRef } from "react";
 import "./Cockpit.css";
 
 const Cockpit = (props) => {
+    const toggleBtnRef = useRef(null);
+
     useEffect(() => {
-        // const timer = setTimeout(() => {
-        //     alert("UPDATED...");
-        // }, 1000);
         return () => {
-            // clearTimeout(timer);
-            console.log("cleanup work");
+            // eslint-disable-next-line
+            toggleBtnRef.current.click();
+            return () => {
+                console.log("cleanup work");
+            };
         };
     }, []);
 
@@ -32,9 +34,10 @@ const Cockpit = (props) => {
         <div className="Cockpit">
             <h1>{props.title}</h1>
             <p className={assignedClasses.join(" ")}> THIS IS WORKING </p>
-            <button className={btnclass} onClick={props.clicked}>
+            <button ref={toggleBtnRef} className={btnclass} onClick={props.clicked}>
                 Show Name
             </button>
+            <button login={props.login}> Login </button>
         </div>
     );
 };
