@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./Person.css";
 import Auxiliary from "../../../hoc/Auxiliary";
 import PropTypes from "prop-types";
+import AuthContext from "../../../context/auth-context";
 
-const person = (props) => {
+const Person = (props) => {
     console.log(" [Person.js] Rendering ");
+    const authContext = useContext(AuthContext);
     return (
         <Auxiliary className="Person">
-            {props.isAuth ? <p>Authenticated</p> : <p>Please LOG IN</p>}
+            {authContext.authenticated ? <p>Authenticated</p> : <p>Please LOG IN</p>}
             <p onClick={props.click}>
                 Hello, my name is {props.name} and i am {props.age} year old!{" "}
             </p>
@@ -17,11 +19,11 @@ const person = (props) => {
     );
 };
 
-person.propTypes = {
+Person.propTypes = {
     click: PropTypes.func,
     name: PropTypes.string,
     age: PropTypes.number,
     changed: PropTypes.func,
 };
 
-export default person;
+export default Person;

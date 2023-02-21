@@ -3,6 +3,7 @@ import Persons from "../Components/Persons/Persons";
 import Cockpit from "../Components/Cockpit/Cockpit";
 import "./App.css";
 import WithClass from "../hoc/WithClass";
+import AuthContext from "../context/auth-context";
 
 const App = (props) => {
     const [personState, setPersonState] = useState({
@@ -82,8 +83,10 @@ const App = (props) => {
             >
                 Remove Cockpit
             </button>
-            {personState.showCockpit ? <Cockpit title={props.title} login={loginhandler} showPerson={personState.showPerson} personsLength={personState.persons.length} clicked={togglePersonsHandler} /> : null}
-            {persons}
+            <AuthContext.Provider value={{ authenticated: personState.authenticated, login: loginhandler }}>
+                {personState.showCockpit ? <Cockpit title={props.title} login={loginhandler} showPerson={personState.showPerson} personsLength={personState.persons.length} clicked={togglePersonsHandler} /> : null}
+                {persons}
+            </AuthContext.Provider>
         </WithClass>
     );
 };

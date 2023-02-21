@@ -1,13 +1,15 @@
-import React, { useEffect, memo, useRef } from "react";
+import React, { useEffect, memo, useRef, useContext } from "react";
 import "./Cockpit.css";
+import AuthContext from "../../context/auth-context";
 
 const Cockpit = (props) => {
     const toggleBtnRef = useRef(null);
+    const authContext = useContext(AuthContext);
 
     useEffect(() => {
         return () => {
             // eslint-disable-next-line
-            toggleBtnRef.current.click();
+            // toggleBtnRef.current.click();
             return () => {
                 console.log("cleanup work");
             };
@@ -37,7 +39,7 @@ const Cockpit = (props) => {
             <button ref={toggleBtnRef} className={btnclass} onClick={props.clicked}>
                 Show Name
             </button>
-            <button onClick={props.login}> Login </button>
+            {<button onClick={authContext.login}> Login </button>}
         </div>
     );
 };
