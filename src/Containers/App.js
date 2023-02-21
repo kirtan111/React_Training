@@ -1,3 +1,5 @@
+// App.js
+
 import React, { useState } from "react";
 import Persons from "../Components/Persons/Persons";
 import Cockpit from "../Components/Cockpit/Cockpit";
@@ -12,35 +14,56 @@ const App = (props) => {
             { id: "2", name: "OM", age: 21 },
             { id: "3", name: "RAJ", age: 24 },
         ],
-        showPerson: true,
+        showPerson: false,
         showCockpit: true,
         changeCounter: 0,
         authenticated: false,
     });
 
     const nameChangedHandler = (e, id) => {
-        const personIndex = personState.persons.findIndex((p) => {
-            return p.id === id;
-        });
-
-        const person = { ...personState.persons[personIndex] };
-        person.name = e.target.value;
-        const persons = [...personState.persons];
-        persons[personIndex] = person;
+        // const personIndex = personState.persons.findIndex((p) => {
+        //     return p.id === id;
+        // });
+        // const person = { ...personState.persons[personIndex] };
+        // person.name = e.target.value;
+        // const persons = [...personState.persons];
+        // persons[personIndex] = person;
+        // setPersonState((prevState) => {
+        //     return {
+        //         persons: persons,
+        //         changeCounter: prevState.changeCounter + 1,
+        //     };
+        // });
         setPersonState((prevState) => {
+            const persons = [...prevState.persons];
+            const personIndex = persons.findIndex((p) => {
+                return p.id === id;
+            });
+            const person = { ...persons[personIndex] };
+            person.name = e.target.value;
+            persons[personIndex] = person;
             return {
                 persons: persons,
                 changeCounter: prevState.changeCounter + 1,
+                authenticated: prevState.authenticated,
+                showCockpit: prevState.showCockpit,
+                showPerson: prevState.showPerson,
             };
         });
     };
 
     console.log(personState.changeCounter);
 
+    // const deletePersonHandler = (personIndex) => {
+    //     const persons = [...personState.persons];
+    //     persons.splice(personIndex, 1);
+    //     setPersonState({ persons: persons });
+    // };
+
     const deletePersonHandler = (personIndex) => {
         const persons = [...personState.persons];
         persons.splice(personIndex, 1);
-        setPersonState({ persons: persons });
+        setPersonState({ persons: persons, changeCounter: personState.changeCounter, authenticated: personState.authenticated, showCockpit: personState.showCockpit, showPerson: personState.showPerson });
     };
 
     const togglePersonsHandler = () => {
@@ -65,7 +88,7 @@ const App = (props) => {
 
     let persons = null;
 
-    if (!personState.showPerson) {
+    if (personState.showPerson) {
         persons = <Persons isAuthenticated={personState.authenticated} persons={personState.persons} click={deletePersonHandler} changed={nameChangedHandler} />;
     }
 
