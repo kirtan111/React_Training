@@ -60,10 +60,6 @@ const App = (props) => {
         });
     };
 
-    // const loginhandler = () => {
-    //     setPersonState({ authenticated: true });
-    // };
-
     console.log("[App.js] rendered");
 
     let persons = null;

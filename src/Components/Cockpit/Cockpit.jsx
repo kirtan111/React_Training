@@ -7,7 +7,7 @@ const Cockpit = (props) => {
     useEffect(() => {
         return () => {
             // eslint-disable-next-line
-            // toggleBtnRef.current.click();
+            toggleBtnRef.current.click();
             return () => {
                 console.log("cleanup work");
             };
