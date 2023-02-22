@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React from "react";
 
-import './FullPost.css';
+import "./FullPost.css";
 
-class FullPost extends Component {
-    render () {
-        let post = <p>Please select a Post!</p>;
+const FullPost = (props) => {
+    let post = <p style={{ textAlign: "center" }}>Please select a Post!</p>;
+    if (props.id) {
         post = (
             <div className="FullPost">
                 <h1>Title</h1>
@@ -13,10 +13,9 @@ class FullPost extends Component {
                     <button className="Delete">Delete</button>
                 </div>
             </div>
-
         );
-        return post;
     }
-}
+    return post;
+};
 
 export default FullPost;
