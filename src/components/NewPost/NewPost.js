@@ -1,22 +1,32 @@
 import React, { useState } from "react";
+import axios from "axios";
 import "./NewPost.css";
 
 const NewPost = () => {
     const [newPost, setNewPost] = useState({ title: "", content: "", author: "Max" });
 
+    const postDataHandler = () => {
+        const postData = {
+            title: newPost.title,
+            content: newPost.content,
+            author: newPost.author,
+        };
+        axios.post("/posts", postData).then((response) => console.log(response));
+    };
+
     return (
         <div className="NewPost">
             <h1>Add a Post</h1>
             <label>Title</label>
-            <input type="text" value={newPost.title} onChange={(event) => setNewPost({ title: event.target.value })} />
+            <input type="text" value={newPost.title} onChange={(e) => setNewPost({ ...newPost, title: e.target.value })} />
             <label>Content</label>
-            <textarea rows="4" value={newPost.content} onChange={(event) => setNewPost({ content: event.target.value })} />
+            <textarea rows="4" value={newPost.content} onChange={(e) => setNewPost({ ...newPost, content: e.target.value })} />
             <label>Author</label>
-            <select value={newPost.author} onChange={(event) => setNewPost({ author: event.target.value })}>
+            <select value={newPost.author} onChange={(e) => setNewPost({ ...newPost, author: e.target.value })}>
                 <option value="Max">Max</option>
                 <option value="Manu">Manu</option>
             </select>
-            <button>Add Post</button>
+            <button onClick={postDataHandler}>Add Post</button>
         </div>
     );
 };
