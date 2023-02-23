@@ -1,12 +1,14 @@
 import React from "react";
-
+import { BrowserRouter as Router } from "react-router-dom";
 import Blog from "./containers/Blog/Blog";
 
 const App = () => {
     return (
-        <div className="App">
-            <Blog />
-        </div>
+        <Router>
+            <div className="App">
+                <Blog />
+            </div>
+        </Router>
     );
 };
 
